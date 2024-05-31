@@ -19,4 +19,7 @@
     <string name="other">Other</string>
     <string name="phone_number">Phone Number</string>
     <string name="sign_up">Sign Up</string>
+    <string name="courses">Courses</string>
+    <string name="users_title">Users</string>
+    <string name="profile_title">profile</string>
 </resources>
