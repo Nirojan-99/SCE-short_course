@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    android:id="@+id/loginScreen"
+    tools:context=".screen.Login">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -53,6 +54,16 @@
                     android:text="@string/login_btn"
                     android:paddingVertical="10dp"
                     android:textStyle="bold" />
+                <Button
+                    android:id="@+id/signupbtn"
+                    android:layout_width="match_parent"
+                    android:gravity="right"
+                    android:layout_height="wrap_content"
+                    android:text="@string/don_t_have_account"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:padding="8dp"
+                    tools:ignore="RtlHardcoded" />
             </LinearLayout>
         </FrameLayout>
     </ScrollView>
