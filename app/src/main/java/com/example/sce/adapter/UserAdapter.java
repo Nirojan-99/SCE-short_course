@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -36,10 +37,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = userList.get(position);
         holder.userName.setText(user.getName());
-        holder.viewIcon.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Details: " + user.getDetails(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Details: " + user.getName(), Toast.LENGTH_SHORT).show();
+                //TODO
             }
         });
     }
@@ -52,11 +54,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView userName;
         ImageView viewIcon;
+        LinearLayout linearLayout;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.user_name);
             viewIcon = itemView.findViewById(R.id.view_icon);
+            linearLayout = itemView.findViewById(R.id.user_row);
         }
     }
 }

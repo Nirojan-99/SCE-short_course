@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/user_row"
     android:orientation="horizontal"
+    android:background="@drawable/rounded_background"
+    android:layout_marginBottom="5dp"
     android:padding="16dp">
 
     <TextView
@@ -11,12 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:text="User Name" />
 
     <ImageView
         android:id="@+id/view_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_notifications_black_24dp"
+        android:src="@drawable/baseline_arrow_right_24"
         android:contentDescription="View Details" />
 </LinearLayout>

@@ -33,8 +33,8 @@ public class DashboardFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         userList = new ArrayList<>();
-        userList.add(new User("John Doe", "Full details of John Doe"));
-        userList.add(new User("Jane Smith", "Full details of Jane Smith"));
+        userList.add(new User("John Doe"));
+        userList.add(new User("Jane Smith"));
         // Add more users as needed
 
         userAdapter = new UserAdapter(userList, getContext());
