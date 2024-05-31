@@ -22,4 +22,5 @@
     <string name="courses">Courses</string>
     <string name="users_title">Users</string>
     <string name="profile_title">profile</string>
+    <string name="add_new_course">Add New Course</string>
 </resources>
