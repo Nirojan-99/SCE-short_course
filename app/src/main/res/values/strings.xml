@@ -35,4 +35,9 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="profile">Profile</string>
+    <string name="course_due">Course Due</string>
+    <string name="course_duration">Course Duration</string>
+    <string name="bar"> | </string>
+    <string name="course_fee">Course Fee</string>
+    <string name="course_name">Course Name</string>
 </resources>
