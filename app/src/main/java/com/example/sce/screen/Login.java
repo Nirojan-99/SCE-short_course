@@ -15,7 +15,7 @@ public class Login extends AppCompatActivity {
 
     private EditText etUsername;
     private EditText etPassword;
-    private Button btnLogin;
+    private Button btnLogin,btnGuestLogin;
     private Button signup;
 
     @Override
@@ -27,11 +27,20 @@ public class Login extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         signup = findViewById(R.id.signupbtn);
         btnLogin = findViewById(R.id.btnLogin);
+        btnGuestLogin = findViewById(R.id.btnGuestLogin);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, SignUp.class));
+            }
+        });
+
+        btnGuestLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this,UserNavigation.class));
+                //TODO add shared pref
             }
         });
 
