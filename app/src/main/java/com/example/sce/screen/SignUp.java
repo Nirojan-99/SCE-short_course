@@ -64,7 +64,6 @@ public class SignUp extends AppCompatActivity {
                 RadioButton selectedGenderButton = findViewById(selectedGenderId);
                 String gender = selectedGenderButton != null ? selectedGenderButton.getText().toString() : "";
 
-
                 if (name.isEmpty() || address.isEmpty() || city.isEmpty() || dob.isEmpty() || nic.isEmpty() ||
                         email.isEmpty() || mobile.isEmpty() || gender.isEmpty()) {
                     Toast.makeText(SignUp.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
@@ -74,15 +73,16 @@ public class SignUp extends AppCompatActivity {
                     Intent intent = new Intent(SignUp.this, OTPVerification.class);
 
                     String OTP = OTPGenerator.generateOTP();
+                    String OTP_message = "Hi,\n" + OTP + " is your One-Time Password (OTP) for SCE";
 
-//                    EmailSender emailSender = new EmailSender(email, "Test", "OTP:" + OTP);
-//                    emailSender.execute();
+                    EmailSender emailSender = new EmailSender(email, "OTP - verification", OTP_message);
+                    emailSender.execute();
 
-//                    intent.putExtra("OTP", OTP);
-//                    intent.putExtra("user", user);
-//
-//                    startActivity(intent);
-//                    finish();
+                    intent.putExtra("OTP", OTP);
+                    intent.putExtra("user", user);
+
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

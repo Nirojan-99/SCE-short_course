@@ -53,6 +53,7 @@ public class OTPVerification extends AppCompatActivity {
             Toast.makeText(OTPVerification.this, "OTP Verified", Toast.LENGTH_SHORT).show();
             UserDao userDao = new UserDao(getApplicationContext());
             userDao.register(user);
+            startActivity(new Intent(OTPVerification.this,AdminNavigation.class));
         } else {
             etOtp.setText("");
             Toast.makeText(OTPVerification.this, "Invalid OTP", Toast.LENGTH_SHORT).show();
