@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.sce.R;
 import com.example.sce.adapter.UserAdapter;
+import com.example.sce.db.user.UserDao;
 import com.example.sce.model.User;
 
 import java.util.ArrayList;
@@ -33,9 +34,8 @@ public class DashboardFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         userList = new ArrayList<>();
-        userList.add(new User("John Doe"));
-        userList.add(new User("Jane Smith"));
-        // Add more users as needed
+        UserDao userDao = new UserDao(getActivity());
+        userList = userDao.getAllUsers();
 
         userAdapter = new UserAdapter(userList, getContext());
         recyclerView.setAdapter(userAdapter);

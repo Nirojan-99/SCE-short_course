@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="YOUR_GOOGLE_MAPS_API_KEY" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -9,6 +13,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,17 +26,17 @@
         android:theme="@style/Theme.SCE"
         tools:targetApi="31">
         <activity
+            android:name=".screen.OTPVerification"
+            android:exported="false" />
+        <activity
+            android:name=".screen.ViewLocations"
+            android:exported="false" />
+        <activity
             android:name=".screen.NewBranch"
             android:exported="false" />
         <activity
             android:name=".screen.Branches"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -44,9 +49,6 @@
         </provider>
 
         <activity
-            android:name=".screen.CourseLocation"
-            android:exported="false" />
-        <activity
             android:name=".screen.UserNavigation"
             android:exported="true"
             android:label="@string/title_activity_user_navigation"
@@ -57,13 +59,19 @@
         <activity
             android:name=".screen.AdminNavigation"
             android:exported="true"
-            android:label="@string/title_activity_admin_navigation"/>
+            android:label="@string/title_activity_admin_navigation" />
         <activity
             android:name=".screen.Login"
             android:exported="true" />
         <activity
             android:name=".screen.SignUp"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".screen.Splash"
             android:exported="true">

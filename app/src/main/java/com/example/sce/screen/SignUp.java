@@ -1,6 +1,7 @@
 package com.example.sce.screen;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,11 +10,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sce.R;
+import com.example.sce.db.user.UserDao;
+import com.example.sce.db.user.UserHelper;
+import com.example.sce.helper.EmailSender;
+import com.example.sce.helper.OTPGenerator;
+import com.example.sce.model.User;
 
 public class SignUp extends AppCompatActivity {
 
@@ -57,13 +64,25 @@ public class SignUp extends AppCompatActivity {
                 RadioButton selectedGenderButton = findViewById(selectedGenderId);
                 String gender = selectedGenderButton != null ? selectedGenderButton.getText().toString() : "";
 
-                // Perform validation and handle sign-in logic
+
                 if (name.isEmpty() || address.isEmpty() || city.isEmpty() || dob.isEmpty() || nic.isEmpty() ||
                         email.isEmpty() || mobile.isEmpty() || gender.isEmpty()) {
                     Toast.makeText(SignUp.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Handle sign-in logic here
-                    Toast.makeText(SignUp.this, "Sign-In Successful", Toast.LENGTH_SHORT).show();
+                    User user = new User(name, address, city, dob, nic, email, gender, mobile, "");
+
+                    Intent intent = new Intent(SignUp.this, OTPVerification.class);
+
+                    String OTP = OTPGenerator.generateOTP();
+
+//                    EmailSender emailSender = new EmailSender(email, "Test", "OTP:" + OTP);
+//                    emailSender.execute();
+
+//                    intent.putExtra("OTP", OTP);
+//                    intent.putExtra("user", user);
+//
+//                    startActivity(intent);
+//                    finish();
                 }
             }
         });

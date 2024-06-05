@@ -1,6 +1,7 @@
 package com.example.sce.model;
 
 public class Course {
+    private long id;
     private String courseName;
     private double courseFee;
     private String[] branches;

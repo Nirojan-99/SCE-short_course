@@ -1,6 +1,9 @@
 package com.example.sce.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private long id;
     private String name;
     private String address;
     private String livingCity;
@@ -10,6 +13,14 @@ public class User {
     private String gender; // "Male", "Female", "Other"
     private String mobilePhoneNumber;
     private String profilePicturePath;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public User(String name, String address, String livingCity, String dateOfBirth, String NIC, String emailAddress, String gender, String mobilePhoneNumber, String profilePicturePath) {
         this.name = name;

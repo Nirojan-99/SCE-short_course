@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sce.R;
 import com.example.sce.model.Course;
-import com.example.sce.screen.CourseLocation;
+import com.example.sce.screen.ViewLocations;
 
 import java.util.List;
 
@@ -48,8 +48,12 @@ public class UserCourseViewAdapter extends RecyclerView.Adapter<UserCourseViewAd
         holder.imageViewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CourseLocation.class);
-                intent.putExtra("courseName", course.getCourseName());
+                double[] latitudes = {37.4219983, 34.052235, 40.712776};
+                double[] longitudes = {-122.084, -118.243683, -74.005974};
+
+                Intent intent = new Intent(context, ViewLocations.class);
+                intent.putExtra("latitudes", latitudes);
+                intent.putExtra("longitudes", longitudes);
                 context.startActivity(intent);
             }
         });
