@@ -58,16 +58,16 @@
             android:theme="@style/Theme.SCE.NoActionBar" />
         <activity
             android:name=".screen.NewCourse"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".screen.AdminNavigation"
             android:exported="true"
-            android:label="@string/title_activity_admin_navigation" />
+            android:label="@string/title_activity_admin_navigation" >
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
+        </activity>
         <activity
             android:name=".screen.Login"
             android:exported="true" />

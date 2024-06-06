@@ -17,10 +17,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sce.R;
+import com.example.sce.db.branch.BranchDao;
 import com.example.sce.helper.DateHelper;
+import com.example.sce.model.Branch;
 import com.example.sce.model.Course;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class NewCourse extends AppCompatActivity {
 
@@ -53,7 +57,16 @@ public class NewCourse extends AppCompatActivity {
 
         multiAutoCompleteTextViewBranches = findViewById(R.id.multiAutoCompleteTextViewBranches);
 
-        String[] branches = {"Branch 1", "Branch 2", "Branch 3"};
+        List<Branch> branchList = new ArrayList<>();
+        BranchDao branchDao = new BranchDao(getApplicationContext());
+        branchList = branchDao.getAllBranches();
+
+        String[] branches = new String[branchList.size()];
+
+        for (int i = 0; i < branchList.size(); i++) {
+            branches[i] = branchList.get(i).getBranchName();
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, branches);
         multiAutoCompleteTextViewBranches.setAdapter(adapter);
         multiAutoCompleteTextViewBranches.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());

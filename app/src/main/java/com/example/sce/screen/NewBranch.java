@@ -8,8 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sce.db.branch.BranchDao;
+import com.example.sce.model.Branch;
+import com.example.sce.model.User;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,6 +33,7 @@ public class NewBranch extends AppCompatActivity {
     private Button btnSave;
     private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
     private Button buttonSelectLocation;
+    private Branch branch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,41 +44,45 @@ public class NewBranch extends AppCompatActivity {
         etBranchName = findViewById(R.id.etBranchName);
         btnSave = findViewById(R.id.btnSave);
 
-        String branchCode = getIntent().getStringExtra("branchCode");
-        String branchName = getIntent().getStringExtra("branchName");
+        Intent intent = getIntent();
 
-        if(branchName == null){
+        branch = (Branch) intent.getSerializableExtra("branch");
+
+        if (branch == null) {
             btnSave.setText("Add");
+        } else {
+            if (!TextUtils.isEmpty(branch.getBranchCode()) && !TextUtils.isEmpty(branch.getBranchName())) {
+                etBranchCode.setText(branch.getBranchCode());
+                etBranchName.setText(branch.getBranchName());
+            }
         }
 
-        if (!TextUtils.isEmpty(branchCode) && !TextUtils.isEmpty(branchName)) {
-            etBranchCode.setText(branchCode);
-            etBranchName.setText(branchName);
-        }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveBranch();
+                if (branch == null) {
+                    saveBranch();
+                } else {
+                    updateBranch();
+                }
+
             }
         });
 
         Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
 
-        Button buttonSelectLocation = findViewById(R.id.button_select_location);
-
+        buttonSelectLocation = findViewById(R.id.button_select_location);
         buttonSelectLocation.setOnClickListener(view -> openAutocompleteActivity());
     }
 
     private void openAutocompleteActivity() {
-        // Set the fields to specify which types of place data to return.
         List<Place.Field> fields = Arrays.asList(
                 com.google.android.libraries.places.api.model.Place.Field.ID,
                 com.google.android.libraries.places.api.model.Place.Field.NAME,
                 com.google.android.libraries.places.api.model.Place.Field.LAT_LNG
         );
 
-        // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
@@ -105,10 +114,32 @@ public class NewBranch extends AppCompatActivity {
         if (branchCode.isEmpty() || branchName.isEmpty()) {
             Toast.makeText(NewBranch.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
         } else {
-            // Save the branch information (e.g., to a database or shared preferences)
+            BranchDao branchDao = new BranchDao(getApplicationContext());
+            Branch branch = new Branch(branchCode, branchName, 12.222, 12.555);//TODO
+            branchDao.addBranch(branch);
+
             Toast.makeText(NewBranch.this, "Branch saved", Toast.LENGTH_SHORT).show();
-            // Optionally, you can finish the activity or perform other actions
             finish();
         }
+    }
+
+    private void updateBranch() {
+        String branchCode = etBranchCode.getText().toString().trim();
+        String branchName = etBranchName.getText().toString().trim();
+
+        if (branchCode.isEmpty() || branchName.isEmpty()) {
+            Toast.makeText(NewBranch.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+        } else {
+            BranchDao branchDao = new BranchDao(getApplicationContext());
+            branch.setBranchCode(branchCode);
+            branch.setBranchName(branchName);
+            //TODO
+            branchDao.updateBranch(branch);
+
+            Toast.makeText(NewBranch.this, "Branch updated", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+
     }
 }

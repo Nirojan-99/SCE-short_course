@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sce.R;
 import com.example.sce.adapter.BranchAdapter;
+import com.example.sce.db.branch.BranchDao;
 import com.example.sce.model.Branch;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,16 +34,14 @@ public class Branches extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.floatingActionButton);
 
         branchList = new ArrayList<>();
-        // Add sample data to the list
-        branchList.add(new Branch("001", "Branch A"));
-        branchList.add(new Branch("002", "Branch B"));
+        BranchDao branchDao = new BranchDao(getApplicationContext());
+        branchList = branchDao.getAllBranches();
 
         branchAdapter = new BranchAdapter(branchList, new BranchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Branch branch) {
                 Intent intent = new Intent(Branches.this, NewBranch.class);
-                intent.putExtra("branchCode", branch.getBranchCode());
-                intent.putExtra("branchName", branch.getBranchName());
+                intent.putExtra("branch", branch);
                 startActivity(intent);
             }
         });

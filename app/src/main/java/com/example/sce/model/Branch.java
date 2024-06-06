@@ -1,12 +1,24 @@
 package com.example.sce.model;
 
-public class Branch {
+import java.io.Serializable;
+
+public class Branch implements Serializable {
+
+    private long id;
     private String branchCode;
     private String branchName;
     private double longitude ;
     private double latitude;
 
     public Branch() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Branch(String branchCode, String branchName) {
