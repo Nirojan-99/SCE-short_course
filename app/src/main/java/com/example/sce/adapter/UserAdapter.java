@@ -37,10 +37,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = userList.get(position);
         holder.userName.setText(user.getName());
+        holder.user_email.setText(user.getEmailAddress());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Details: " + user.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Details: " + user.toString(), Toast.LENGTH_SHORT).show();
                 //TODO
             }
         });
@@ -52,14 +53,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView userName;
-        ImageView viewIcon;
+        TextView userName,user_email;
         LinearLayout linearLayout;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.user_name);
-            viewIcon = itemView.findViewById(R.id.view_icon);
+            user_email = itemView.findViewById(R.id.user_email);
             linearLayout = itemView.findViewById(R.id.user_row);
         }
     }

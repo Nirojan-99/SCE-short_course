@@ -50,7 +50,6 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
                 ", address='" + address + '\'' +
                 ", livingCity='" + livingCity + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
@@ -58,7 +57,6 @@ public class User implements Serializable {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", gender='" + gender + '\'' +
                 ", mobilePhoneNumber='" + mobilePhoneNumber + '\'' +
-                ", profilePicturePath='" + profilePicturePath + '\'' +
                 '}';
     }
 
