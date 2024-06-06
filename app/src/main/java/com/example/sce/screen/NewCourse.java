@@ -1,7 +1,9 @@
 package com.example.sce.screen;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sce.R;
 import com.example.sce.db.branch.BranchDao;
+import com.example.sce.db.course.CourseDao;
 import com.example.sce.helper.DateHelper;
 import com.example.sce.model.Branch;
 import com.example.sce.model.Course;
@@ -41,6 +44,7 @@ public class NewCourse extends AppCompatActivity {
     int month;
     int dayOfMonth;
     DatePickerDialog datePickerDialog;
+    private Course course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,21 @@ public class NewCourse extends AppCompatActivity {
         buttonAddCourse = findViewById(R.id.buttonAddCourse);
 
         multiAutoCompleteTextViewBranches = findViewById(R.id.multiAutoCompleteTextViewBranches);
+
+        Intent intent = getIntent();
+        course = (Course) intent.getSerializableExtra("course");
+        if (course == null) {
+            buttonAddCourse.setText("Add Course");
+        } else {
+            buttonAddCourse.setText("Save");
+            editTextCourseName.setText(course.getCourseName());
+            editTextCourseFee.setText(String.valueOf(course.getCourseFee()));
+            multiAutoCompleteTextViewBranches.setText(String.join(", ", course.getBranches()));
+            editTextDuration.setText(String.valueOf(course.getDuration()));
+            editTextRegistrationCloseDate.setText(course.getRegistrationCloseDate());
+            editTextStartDate.setText(course.getStartDate());
+            editTextMaxParticipants.setText(String.valueOf(course.getMaxParticipants()));
+        }
 
         List<Branch> branchList = new ArrayList<>();
         BranchDao branchDao = new BranchDao(getApplicationContext());
@@ -74,7 +93,12 @@ public class NewCourse extends AppCompatActivity {
         buttonAddCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewCourse();
+                if (course == null) {
+                    addNewCourse();
+                } else {
+                    updateCourse();
+                }
+
             }
         });
 
@@ -104,8 +128,8 @@ public class NewCourse extends AppCompatActivity {
         String selectedBranches = multiAutoCompleteTextViewBranches.getText().toString();
 
 
-        if (courseName.isEmpty() || courseFeeStr.isEmpty()  || durationStr.isEmpty() ||
-                publishedDate.isEmpty() || registrationCloseDate.isEmpty() || startDate.isEmpty() || maxParticipantsStr.isEmpty()) {
+        if (courseName.isEmpty() || courseFeeStr.isEmpty() || durationStr.isEmpty() ||
+                registrationCloseDate.isEmpty() || startDate.isEmpty() || maxParticipantsStr.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -116,10 +140,52 @@ public class NewCourse extends AppCompatActivity {
 
         String[] branchesArray = selectedBranches.split("\\s*,\\s*");
 
-        Course course =  new Course(courseName, courseFee, branchesArray, duration, publishedDate, registrationCloseDate, startDate, maxParticipants);
+        Course course = new Course(courseName, courseFee, branchesArray, duration, publishedDate, registrationCloseDate, startDate, maxParticipants);
+
+        CourseDao courseDao = new CourseDao(getApplicationContext());
+        courseDao.addCourse(course);
 
         Toast.makeText(this, "Course added successfully", Toast.LENGTH_SHORT).show();
         clearFields();
+        finish();
+    }
+
+    private void updateCourse() {
+        String courseName = editTextCourseName.getText().toString();
+        String courseFeeStr = editTextCourseFee.getText().toString();
+        String durationStr = editTextDuration.getText().toString();
+        String registrationCloseDate = editTextRegistrationCloseDate.getText().toString();
+        String startDate = editTextStartDate.getText().toString();
+        String maxParticipantsStr = editTextMaxParticipants.getText().toString();
+        String selectedBranches = multiAutoCompleteTextViewBranches.getText().toString();
+
+
+        if (courseName.isEmpty() || courseFeeStr.isEmpty() || durationStr.isEmpty() ||
+                registrationCloseDate.isEmpty() || startDate.isEmpty() || maxParticipantsStr.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double courseFee = Double.parseDouble(courseFeeStr);
+        int duration = Integer.parseInt(durationStr);
+        int maxParticipants = Integer.parseInt(maxParticipantsStr);
+
+        String[] branchesArray = selectedBranches.split("\\s*,\\s*");
+
+        course.setCourseName(courseName);
+        course.setCourseFee(courseFee);
+        course.setBranches(branchesArray);
+        course.setDuration(duration);
+        course.setMaxParticipants(maxParticipants);
+        course.setStartDate(startDate);
+        course.setRegistrationCloseDate(registrationCloseDate);
+
+        CourseDao courseDao = new CourseDao(getApplicationContext());
+        courseDao.updateCourse(course);
+
+        Toast.makeText(this, "Course updated successfully", Toast.LENGTH_SHORT).show();
+        clearFields();
+        finish();
     }
 
     private void clearFields() {

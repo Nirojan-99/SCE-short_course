@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sce.R;
 import com.example.sce.adapter.CourseAdapter;
+import com.example.sce.db.course.CourseDao;
 import com.example.sce.model.Course;
 import com.example.sce.screen.Branches;
 import com.example.sce.screen.Login;
@@ -56,50 +57,8 @@ public class HomeFragment extends Fragment {
         });
 
         courseList = new ArrayList<>();
-        String[] branches1 = {"Colombo", "Kandy"};
-        String[] branches2 = {"Colombo", "Jaffna"};
-        String[] branches3 = {"Galle", "Gampaha"};
-        String[] branches4 = {"Kottawa", "Colombo"};
-        courseList.add(new Course(
-                "Programming for Beginners",
-                30000.00,
-                branches1,
-                10,
-                "2024-02-15",
-                "2024-02-29",
-                "2024-03-15",
-                30
-        ));
-        courseList.add(new Course(
-                "Advanced Java Programming",
-                45000.00,
-                branches2,
-                15,
-                "2024-02-10",
-                "2024-02-24",
-                "2024-03-20",
-                25
-        ));
-        courseList.add(new Course(
-                "Web Development Essentials",
-                40000.00,
-                branches3,
-                12,
-                "2024-02-18",
-                "2024-03-01",
-                "2024-03-25",
-                20
-        ));
-        courseList.add(new Course(
-                "Database Management Systems",
-                35000.00,
-                branches4,
-                8,
-                "2024-02-12",
-                "2024-02-26",
-                "2024-03-18",
-                15
-        ));
+        CourseDao courseDao = new CourseDao(getContext());
+        courseList = courseDao.getAllCourses();
 
         courseAdapter = new CourseAdapter(courseList, getContext());
         recyclerView.setAdapter(courseAdapter);

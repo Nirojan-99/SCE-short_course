@@ -1,6 +1,8 @@
 package com.example.sce.model;
 
-public class Course {
+import java.io.Serializable;
+
+public class Course implements Serializable {
     private long id;
     private String courseName;
     private double courseFee;
@@ -10,6 +12,14 @@ public class Course {
     private String registrationCloseDate;
     private String startDate;
     private int maxParticipants;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Course(String courseName, double courseFee, String[] branches, int duration, String publishedDate, String registrationCloseDate, String startDate, int maxParticipants) {
         this.courseName = courseName;

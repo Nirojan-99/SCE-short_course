@@ -1,6 +1,7 @@
 package com.example.sce.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sce.R;
 import com.example.sce.model.Course;
+import com.example.sce.screen.NewCourse;
 
 import java.util.List;
 
@@ -40,8 +42,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Details: " + course.getCourseName(), Toast.LENGTH_SHORT).show();
-                //TODO
+                Intent intent = new Intent(context, NewCourse.class);
+                intent.putExtra("course", course);
+                context.startActivity(intent);
             }
         });
     }
