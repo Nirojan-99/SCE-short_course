@@ -1,10 +1,13 @@
 package com.example.sce.screen;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
 import com.example.sce.R;
+import com.example.sce.common.CommonConstant;
+import com.example.sce.helper.PreferenceManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -21,7 +24,6 @@ public class UserNavigation extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityUserNavigationBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +31,27 @@ public class UserNavigation extends AppCompatActivity {
         binding = ActivityUserNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
+        String userType = preferenceManager.getUserType();
+        String userID = null;
+
+        if (userType.equals(CommonConstant.SIGNING_USER)) {
+            userID = preferenceManager.getUserId();
+        }
+
         setSupportActionBar(binding.appBarUserNavigation.toolbar);
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+        // Hide nav_profile if userID is null
+        Menu menu = navigationView.getMenu();
+        MenuItem navProfileItem = menu.findItem(R.id.nav_profile);
+        if (userID == null) {
+            navProfileItem.setVisible(false);
+        } else {
+            navProfileItem.setVisible(true);
+        }
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_profile)
@@ -42,6 +61,7 @@ public class UserNavigation extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

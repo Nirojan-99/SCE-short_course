@@ -6,12 +6,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class UserHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "user.db";
+    private static final String DATABASE_NAME = "users.db";
     private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_USER = "user";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_ADDRESS = "address";
     public static final String COLUMN_LIVING_CITY = "livingCity";
     public static final String COLUMN_DATE_OF_BIRTH = "dateOfBirth";
@@ -25,6 +26,7 @@ public class UserHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + TABLE_USER + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_NAME + " TEXT, " +
+                    COLUMN_PASSWORD + " TEXT, " +
                     COLUMN_ADDRESS + " TEXT, " +
                     COLUMN_LIVING_CITY + " TEXT, " +
                     COLUMN_DATE_OF_BIRTH + " TEXT, " +

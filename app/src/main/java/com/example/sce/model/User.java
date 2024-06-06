@@ -5,12 +5,13 @@ import java.io.Serializable;
 public class User implements Serializable {
     private long id;
     private String name;
+    private String password;
     private String address;
     private String livingCity;
     private String dateOfBirth;
     private String NIC;
     private String emailAddress;
-    private String gender; // "Male", "Female", "Other"
+    private String gender;
     private String mobilePhoneNumber;
     private String profilePicturePath;
 
@@ -22,8 +23,48 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(String name, String address, String livingCity, String dateOfBirth, String NIC, String emailAddress, String gender, String mobilePhoneNumber, String profilePicturePath) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User(long id, String name, String password, String address, String livingCity, String dateOfBirth, String NIC, String emailAddress, String gender, String mobilePhoneNumber, String profilePicturePath) {
+        this.id = id;
         this.name = name;
+        this.password = password;
+        this.address = address;
+        this.livingCity = livingCity;
+        this.dateOfBirth = dateOfBirth;
+        this.NIC = NIC;
+        this.emailAddress = emailAddress;
+        this.gender = gender;
+        this.mobilePhoneNumber = mobilePhoneNumber;
+        this.profilePicturePath = profilePicturePath;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", livingCity='" + livingCity + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", NIC='" + NIC + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", gender='" + gender + '\'' +
+                ", mobilePhoneNumber='" + mobilePhoneNumber + '\'' +
+                ", profilePicturePath='" + profilePicturePath + '\'' +
+                '}';
+    }
+
+    public User(String name, String password, String address, String livingCity, String dateOfBirth, String NIC, String emailAddress, String gender, String mobilePhoneNumber, String profilePicturePath) {
+        this.name = name;
+        this.password = password;
         this.address = address;
         this.livingCity = livingCity;
         this.dateOfBirth = dateOfBirth;

@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.example.sce.model.User;
 
 import java.util.ArrayList;
@@ -26,9 +28,18 @@ public class UserDao {
         dbHelper.close();
     }
 
-    public void register(User user) {
+    public long register(User user) {
+
+        String password = user.getPassword();
+        if (password == null) {
+            Log.e("UserHelper", "Password is null");
+        } else {
+            Log.d("UserHelper", "Password: " + password);
+        }
+
         ContentValues values = new ContentValues();
         values.put(UserHelper.COLUMN_NAME, user.getName());
+        values.put(UserHelper.COLUMN_PASSWORD, user.getPassword());
         values.put(UserHelper.COLUMN_ADDRESS, user.getAddress());
         values.put(UserHelper.COLUMN_LIVING_CITY, user.getLivingCity());
         values.put(UserHelper.COLUMN_DATE_OF_BIRTH, user.getDateOfBirth());
@@ -37,7 +48,47 @@ public class UserDao {
         values.put(UserHelper.COLUMN_GENDER, user.getGender());
         values.put(UserHelper.COLUMN_MOBILE_PHONE_NUMBER, user.getMobilePhoneNumber());
 
-        database.insert(UserHelper.TABLE_USER, null, values);
+        return database.insert(UserHelper.TABLE_USER, null, values);
+    }
+
+    public boolean loginUser(String email, String password) {
+        Cursor cursor = null;
+        try {
+            cursor = database.query(UserHelper.TABLE_USER,
+                    null,
+                    UserHelper.COLUMN_EMAIL_ADDRESS + " = ?",
+                    new String[]{String.valueOf(email)},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                User user = cursorToUser(cursor);
+                // Check password (assuming plain text here, but consider hashing in production)
+                return user.getPassword().equals(password);
+            }
+        } catch (Exception e) {
+            return false;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return false;
+    }
+
+    public long getUserID(String email) {
+        Cursor cursor = database.query(UserHelper.TABLE_USER,
+                null,
+                UserHelper.COLUMN_EMAIL_ADDRESS + " = ?",
+                new String[]{String.valueOf(email)},
+                null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            User user = cursorToUser(cursor);
+            cursor.close();
+            return user.getId();
+        }
+        return -1;
     }
 
     public User getUser(long id) {
@@ -100,6 +151,7 @@ public class UserDao {
         User user = new User();
         user.setId(cursor.getLong(cursor.getColumnIndexOrThrow(UserHelper.COLUMN_ID)));
         user.setName(cursor.getString(cursor.getColumnIndexOrThrow(UserHelper.COLUMN_NAME)));
+        user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(UserHelper.COLUMN_PASSWORD)));
         user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(UserHelper.COLUMN_ADDRESS)));
         user.setLivingCity(cursor.getString(cursor.getColumnIndexOrThrow(UserHelper.COLUMN_LIVING_CITY)));
         user.setDateOfBirth(cursor.getString(cursor.getColumnIndexOrThrow(UserHelper.COLUMN_DATE_OF_BIRTH)));

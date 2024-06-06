@@ -10,21 +10,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import java.util.Calendar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.sce.R;
-import com.example.sce.db.user.UserDao;
-import com.example.sce.db.user.UserHelper;
 import com.example.sce.helper.EmailSender;
 import com.example.sce.helper.OTPGenerator;
 import com.example.sce.model.User;
 
 public class SignUp extends AppCompatActivity {
 
-    private EditText etName, etAddress, etCity, etDob, etNic, etEmail, etMobile;
+    private EditText etName, etAddress, etCity, etDob, etNic, etEmail, etMobile,etPassword;
     private RadioGroup rgGender;
     private Button btnSignIn;
     private Calendar calendar;
@@ -48,11 +43,13 @@ public class SignUp extends AppCompatActivity {
         etMobile = findViewById(R.id.etMobile);
         rgGender = findViewById(R.id.rgGender);
         btnSignIn = findViewById(R.id.btnSignIn);
+        etPassword = findViewById(R.id.registerPassword);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = etName.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
                 String address = etAddress.getText().toString().trim();
                 String city = etCity.getText().toString().trim();
                 String dob = etDob.getText().toString().trim();
@@ -68,7 +65,7 @@ public class SignUp extends AppCompatActivity {
                         email.isEmpty() || mobile.isEmpty() || gender.isEmpty()) {
                     Toast.makeText(SignUp.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    User user = new User(name, address, city, dob, nic, email, gender, mobile, "");
+                    User user = new User(name,password, address, city, dob, nic, email, gender, mobile, "");
 
                     Intent intent = new Intent(SignUp.this, OTPVerification.class);
 
@@ -102,7 +99,6 @@ public class SignUp extends AppCompatActivity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        // Toast.makeText(this, year+"/"+(month+1)+"/"+dayOfMonth, Toast.LENGTH_SHORT).show();
         datePickerDialog = new DatePickerDialog(SignUp.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
