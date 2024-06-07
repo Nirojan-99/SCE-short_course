@@ -6,6 +6,7 @@
     android:background="@drawable/rounded_background"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:id="@+id/userCourseLayout"
     android:padding="16dp">
 
     <LinearLayout

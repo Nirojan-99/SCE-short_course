@@ -2,6 +2,7 @@ package com.example.sce.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.sce.R;
 import com.example.sce.model.Course;
 import com.example.sce.screen.NewCourse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
@@ -43,7 +45,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, NewCourse.class);
-                intent.putExtra("course", course);
+                intent.putExtra("course", (Serializable) course);
                 context.startActivity(intent);
             }
         });

@@ -1,8 +1,13 @@
 package com.example.sce.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
-public class Course implements Serializable {
+public class Course implements Serializable, Parcelable {
     private long id;
     private String courseName;
     private double courseFee;
@@ -98,4 +103,38 @@ public class Course implements Serializable {
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(courseName);
+        parcel.writeDouble(courseFee);
+        parcel.writeInt(duration);
+        parcel.writeString(registrationCloseDate);
+        parcel.writeString(startDate);
+    }
+
+
+    protected Course(Parcel in) {
+        courseName = in.readString();
+        courseFee = in.readDouble();
+        duration = in.readInt();
+        registrationCloseDate = in.readString();
+        startDate = in.readString();
+    }
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
+        @Override
+        public Course createFromParcel(Parcel in) {
+            return new Course(in);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
 }
