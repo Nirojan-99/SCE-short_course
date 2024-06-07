@@ -8,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sce.R;
 import com.example.sce.model.Course;
 import com.example.sce.screen.NewCourse;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -45,7 +43,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, NewCourse.class);
-                intent.putExtra("course", (Serializable) course);
+                intent.putExtra("course", (Parcelable) course);
                 context.startActivity(intent);
             }
         });
