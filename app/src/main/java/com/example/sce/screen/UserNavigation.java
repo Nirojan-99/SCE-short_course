@@ -44,13 +44,15 @@ public class UserNavigation extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-        // Hide nav_profile if userID is null
         Menu menu = navigationView.getMenu();
         MenuItem navProfileItem = menu.findItem(R.id.nav_profile);
+        MenuItem navEnrollmentItem = menu.findItem(R.id.nav_enrollment);
         if (userID == null) {
             navProfileItem.setVisible(false);
+            navEnrollmentItem.setVisible(false);
         } else {
             navProfileItem.setVisible(true);
+            navEnrollmentItem.setVisible(true);
         }
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(

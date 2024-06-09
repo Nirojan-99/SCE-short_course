@@ -6,8 +6,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.sce.R;
+import com.example.sce.db.enrollment.EnrollmentDao;
+import com.example.sce.helper.DateHelper;
+import com.example.sce.helper.PreferenceManager;
+import com.example.sce.helper.TimestampGenerator;
+import com.example.sce.model.Course;
+import com.example.sce.model.Enrollment;
+
+import java.util.List;
 
 public class Payment extends AppCompatActivity {
     private TextView textViewFinalPrice;
@@ -16,6 +26,7 @@ public class Payment extends AppCompatActivity {
     private EditText editTextCardCVC;
     private Button buttonCompleteCheckout;
     private double finalPrice;
+    private List<Course> selectedCourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +40,7 @@ public class Payment extends AppCompatActivity {
         buttonCompleteCheckout = findViewById(R.id.buttonCompleteCheckout);
 
         finalPrice = getIntent().getDoubleExtra("totalPrice", 0.0);
+        selectedCourses = getIntent().getParcelableArrayListExtra("selectedCourses");
         textViewFinalPrice.setText(String.format("Final Price: $%.2f", finalPrice));
 
         buttonCompleteCheckout.setOnClickListener(v -> completeCheckout());
@@ -40,9 +52,22 @@ public class Payment extends AppCompatActivity {
         String cardCVC = editTextCardCVC.getText().toString().trim();
 
         if (validateCardDetails(cardNumber, cardExpiry, cardCVC)) {
-            //TODO handle save courses
+            EnrollmentDao enrollmentDao = new EnrollmentDao(getApplicationContext());
+            String purchaseCode = TimestampGenerator.generateTimestamp();
+
+            PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
+            String userID = preferenceManager.getUserId();
+            String branch = "Jaffna";//TODO
+
+            for (Course course : selectedCourses) {
+
+                Enrollment enrollment = new Enrollment(purchaseCode, Integer.parseInt(userID), (int) course.getId(), branch, DateHelper.getCurrentDate());
+                enrollmentDao.insertEnrollment(enrollment);
+            }
+
+
             Toast.makeText(this, "Payment Successful!", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(Payment.this,UserNavigation.class));
+            startActivity(new Intent(Payment.this, UserNavigation.class));
             finish();
         }
     }

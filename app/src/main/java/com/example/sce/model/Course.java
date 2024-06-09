@@ -18,14 +18,6 @@ public class Course implements Serializable, Parcelable {
     private String startDate;
     private int maxParticipants;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public Course(String courseName, double courseFee, String[] branches, int duration, String publishedDate, String registrationCloseDate, String startDate, int maxParticipants) {
         this.courseName = courseName;
         this.courseFee = courseFee;
@@ -37,7 +29,27 @@ public class Course implements Serializable, Parcelable {
         this.maxParticipants = maxParticipants;
     }
 
+    public Course(long id, String courseName, double courseFee, String[] branches, int duration, String publishedDate, String registrationCloseDate, String startDate, int maxParticipants) {
+        this.id = id;
+        this.courseName = courseName;
+        this.courseFee = courseFee;
+        this.branches = branches;
+        this.duration = duration;
+        this.publishedDate = publishedDate;
+        this.registrationCloseDate = registrationCloseDate;
+        this.startDate = startDate;
+        this.maxParticipants = maxParticipants;
+    }
+
     public Course() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getCourseName() {
@@ -110,22 +122,30 @@ public class Course implements Serializable, Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeLong(id);
         parcel.writeString(courseName);
         parcel.writeDouble(courseFee);
+        parcel.writeStringArray(branches);
         parcel.writeInt(duration);
+        parcel.writeString(publishedDate);
         parcel.writeString(registrationCloseDate);
         parcel.writeString(startDate);
+        parcel.writeInt(maxParticipants);
     }
-
 
     protected Course(Parcel in) {
+        id = in.readLong();
         courseName = in.readString();
         courseFee = in.readDouble();
+        branches = in.createStringArray();
         duration = in.readInt();
+        publishedDate = in.readString();
         registrationCloseDate = in.readString();
         startDate = in.readString();
+        maxParticipants = in.readInt();
     }
+
     public static final Creator<Course> CREATOR = new Creator<Course>() {
         @Override
         public Course createFromParcel(Parcel in) {

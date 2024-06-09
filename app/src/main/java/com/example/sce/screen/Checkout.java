@@ -73,6 +73,7 @@ public class Checkout extends AppCompatActivity {
     private void navigateToPayment() {
         Intent intent = new Intent(Checkout.this, Payment.class);
         intent.putExtra("totalPrice", discountedPrice > 0 ? discountedPrice : totalPrice);
+        intent.putParcelableArrayListExtra("selectedCourses", selectedCourses);
         startActivity(intent);
         finish();
     }

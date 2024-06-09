@@ -62,7 +62,13 @@ public class NewCourse extends AppCompatActivity {
         multiAutoCompleteTextViewBranches = findViewById(R.id.multiAutoCompleteTextViewBranches);
 
         Intent intent = getIntent();
-        course = (Course) intent.getSerializableExtra("course");
+        String id = intent.getStringExtra("id");
+
+        if (id != null) {
+            CourseDao courseDao = new CourseDao(getApplicationContext());
+            course = courseDao.getCourse(Long.parseLong(id));
+        }
+
         if (course == null) {
             buttonAddCourse.setText("Add Course");
         } else {

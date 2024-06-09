@@ -16,4 +16,10 @@
         android:name="com.example.sce.screen.ui.userProfile.UserProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_user_profile" />
+
+    <fragment
+        android:id="@+id/nav_enrollment"
+        android:name="com.example.sce.screen.ui.userEnrollment.UserEnrollmentFragment"
+        android:label="@string/enrollment"
+        tools:layout="@layout/fragment_user_enrollment" />
 </navigation>

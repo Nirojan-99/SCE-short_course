@@ -54,6 +54,10 @@ public class Login extends AppCompatActivity {
                 UserDao userDao = new UserDao(getApplicationContext());
                 PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
 
+                //TODO
+                etUsername.setText("nirojan.yoga@gmail.com");
+                etPassword.setText("123456");
+
                 if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 } else {

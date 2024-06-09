@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.sce.R;
 import com.example.sce.adapter.UserCourseViewAdapter;

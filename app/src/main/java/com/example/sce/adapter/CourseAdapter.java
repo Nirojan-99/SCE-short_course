@@ -43,7 +43,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, NewCourse.class);
-                intent.putExtra("course", (Parcelable) course);
+                intent.putExtra("id",  String.valueOf(course.getId()));
                 context.startActivity(intent);
             }
         });
